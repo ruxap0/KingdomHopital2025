@@ -1,4 +1,4 @@
-using Serilog;
+/*using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,4 +30,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.Run();*/
+using Microsoft.EntityFrameworkCore;
+using Serilog;
+using KindomHospital.Infrastructure;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<KingdomHospitalContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
