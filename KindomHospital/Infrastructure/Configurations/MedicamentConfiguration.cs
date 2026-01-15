@@ -33,6 +33,5 @@ namespace KindomHospital.Infrastructure.Configurations
                 .HasForeignKey(ol => ol.MedicamentId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
-    {
     }
 }

@@ -1,4 +1,4 @@
-﻿/*using KindomHospital.Infrastructure.Seeders.Interfaces;
+﻿using KindomHospital.Infrastructure.Seeders.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindomHospital.Infrastructure.Seeders

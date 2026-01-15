@@ -1,4 +1,6 @@
-/*using Serilog;
+using Serilog;
+using KindomHospital.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,9 @@ builder.Services.AddOpenApi();
 //Ajouter les Mappers au DI
 //Ajouter les service au DI
 //Ajouter les repositories au DI
+
+builder.Services.AddDbContext<KingdomHospitalContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -30,12 +35,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();*/
-using Microsoft.EntityFrameworkCore;
-using Serilog;
-using KindomHospital.Infrastructure;
-
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<KingdomHospitalContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+app.Run();
