@@ -44,5 +44,11 @@ namespace KindomHospital.Application.Services
             entity.PatientId = id;
             return await patientRepository.UpdatePatientAsync(entity);
         }
+
+        public async Task<int> Delete(int id)
+        {
+            logger.LogInformation("Delete Patient; id : " + id);
+            return await patientRepository.DeletePatientAsync(id);
+        }
     }
 }

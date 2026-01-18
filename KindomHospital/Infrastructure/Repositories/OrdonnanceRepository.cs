@@ -64,5 +64,16 @@ namespace KindomHospital.Infrastructure.Repositories
             await context.SaveChangesAsync();
             return 1;
         }
+
+        public async Task<int> DeleteOrdonnanceAsync(int id)
+        {
+            var existing = await context.Ordonnances.FindAsync(id);
+            if (existing is null)
+                return 0;
+
+            context.Ordonnances.Remove(existing);
+            await context.SaveChangesAsync();
+            return 1;
+        }
     }
 }

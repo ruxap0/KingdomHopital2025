@@ -68,5 +68,20 @@ namespace KindomHospital.Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            _logger.LogInformation("Deleting Ordonnance with ID {Id}", id);
+
+            int result = await service.Delete(id);
+
+            if (result == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
     }
 }
