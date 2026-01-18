@@ -16,5 +16,10 @@ namespace KindomHospital.Infrastructure.Repositories
             await context.Consultations.AddAsync(consultation);
             await context.SaveChangesAsync();
         }
+
+        public async Task<Consultation> GetConsultationById(int id)
+        {
+            return await context.Consultations.FirstOrDefaultAsync(c => c.ConsultationId == id);
+        }
     }
 }

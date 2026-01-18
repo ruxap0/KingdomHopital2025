@@ -11,15 +11,15 @@ namespace KindomHospital.Domain.Entities
 
         
         
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         
         
-        public required string DosageForm { get; set; }
+        public string DosageForm { get; set; }
 
         
         
-        public required string Strength { get; set; }
+        public string Strength { get; set; }
 
         
         public string? AtcCode { get; set; }

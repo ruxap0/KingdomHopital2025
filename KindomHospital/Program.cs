@@ -21,10 +21,27 @@ builder.Services.AddOpenApi();
 
 // Ajouter les Mappers au DI
 builder.Services.AddSingleton<SpecialtyMapper>();
+builder.Services.AddSingleton<DoctorMapper>();
+builder.Services.AddSingleton<PatientMapper>();
+builder.Services.AddSingleton<ConsultationMapper>();
+builder.Services.AddSingleton<MedicamentMapper>();
+builder.Services.AddSingleton<OrdonnanceMapper>();
+
 // Ajouter les services au DI
 builder.Services.AddScoped<SpecialtyService>();
+builder.Services.AddScoped<DoctorService>();
+builder.Services.AddScoped<PatientService>();
+builder.Services.AddScoped<ConsultationService>();
+builder.Services.AddScoped<MedicamentService>();
+builder.Services.AddScoped<OrdonnanceService>();
+
 // Ajouter les repositories au DI
 builder.Services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IConsultationRepository, ConsultationRepository>();
+builder.Services.AddScoped<IMedicamentRepository, MedicamentRepository>();
+builder.Services.AddScoped<IOrdonnanceRepository, OrdonnanceRepository>();
 
 // DbContext (scoped)
 builder.Services.AddDbContext<KingdomHospitalContext>(options =>

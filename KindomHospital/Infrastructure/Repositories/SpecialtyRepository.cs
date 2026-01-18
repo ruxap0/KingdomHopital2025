@@ -15,5 +15,9 @@ namespace KindomHospital.Infrastructure.Repositories
             await context.Specialties.AddAsync(specialty);
             await context.SaveChangesAsync();
         }
+        public async Task<Specialty> GetSpecialtyById(int id)
+        {
+            return await context.Specialties.FindAsync(id);
+        }
     }
 }

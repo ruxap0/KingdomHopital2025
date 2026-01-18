@@ -14,5 +14,21 @@ namespace KindomHospital.Application.Services
 
             return dtos;
         }
+
+        public async Task<SpecialtyDto> GetSpecialtyById(int id)
+        {
+            logger.LogInformation("GetSpecialtyById; id : " + id);
+            var entity = await specialtyRepository.GetSpecialtyById(id);
+            SpecialtyDto dto;
+            if (entity != null)
+            {
+                dto = specialtyMapper.ToDto(entity);
+            }
+            else
+            {
+                dto = null;
+            }
+                return dto;
+        }
     }
 }

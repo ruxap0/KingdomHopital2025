@@ -16,5 +16,10 @@ namespace KindomHospital.Infrastructure.Repositories
             await context.Doctors.AddAsync(doctor);
             await context.SaveChangesAsync();
         }
+
+        public async Task<Doctor> GetDoctorById(int id)
+        {
+            return await context.Doctors.FindAsync(id);
+        }
     }
 }

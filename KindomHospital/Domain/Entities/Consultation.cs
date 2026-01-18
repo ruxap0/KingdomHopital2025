@@ -9,25 +9,25 @@ namespace KindomHospital.Domain.Entities
         public int ConsultationId { get; set; }
 
         
-        public required int DoctorId { get; set; }
+        public int DoctorId { get; set; }
 
         
-        public required int PatientId { get; set; }
+        public int PatientId { get; set; }
 
         
-        public required DateOnly Date { get; set; }
+        public DateOnly Date { get; set; }
 
         
-        public required TimeOnly Hour { get; set; }
+        public TimeOnly Hour { get; set; }
 
         
         public string? Reason { get; set; }
 
         
-        public required Doctor Doctor { get; set; }
+        public Doctor? Doctor { get; set; }
 
         
-        public required Patient Patient { get; set; }
+        public Patient? Patient { get; set; }
 
         public ICollection<Ordonnance>? Ordonnances { get; set; }
     }

@@ -7,5 +7,7 @@ namespace KindomHospital.Application.Repositories
         Task<IEnumerable<Specialty>> GetAllSpecialtiesAsync();
 
         Task AddSpecialtyAsync(Specialty specialty);
+
+        Task<Specialty> GetSpecialtyById(int id);
     }
 }

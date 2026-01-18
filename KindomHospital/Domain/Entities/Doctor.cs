@@ -8,13 +8,13 @@ namespace KindomHospital.Domain.Entities
         
         public int DoctorId { get; set; }
 
-        public required int SpecialtyId { get; set; }
+        public int SpecialtyId { get; set; }
         
-        public required string FirstName { get; set; }
+        public string FirstName { get; set; }
 
-        public required string LastName { get; set; }
+        public string LastName { get; set; }
         
-        public required Specialty Specialty { get; set; }
+        public Specialty? Specialty { get; set; }
 
         public ICollection<Consultation>? Consultations { get; set; }
 

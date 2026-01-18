@@ -7,7 +7,7 @@ namespace KindomHospital.Domain.Entities
     {
         public int SpecialtyId { get; set; }
 
-        public required string Name { get; set; }
+        public  string Name { get; set; }
 
         public ICollection<Doctor>? Doctors { get; set; }
     }

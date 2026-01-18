@@ -9,14 +9,14 @@ namespace KindomHospital.Domain.Entities
 
         
         
-        public required string FirstName { get; set; }
+        public  string FirstName { get; set; }
 
         
         
-        public required string LastName { get; set; }
+        public  string LastName { get; set; }
 
         
-        public required DateOnly BirthDate { get; set; }
+        public  DateOnly BirthDate { get; set; }
 
         public ICollection<Consultation>? Consultations { get; set; }
         public ICollection<Ordonnance>? Ordonnances { get; set; }
