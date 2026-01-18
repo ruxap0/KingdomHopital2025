@@ -48,5 +48,25 @@ namespace KindomHospital.Presentation.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = id }, item);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(int id, [FromBody] CreateConsultationDto dto)
+        {
+            _logger.LogInformation("Updating Consultation with ID {Id}", id);
+
+            int result = await service.Update(id, dto);
+
+            if (result == -1)
+            {
+                return BadRequest("Could not update the consultation. Doctor or Patient does not exist.");
+            }
+
+            if (result == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
     }
 }

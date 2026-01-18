@@ -36,5 +36,13 @@ namespace KindomHospital.Application.Services
             var entity = doctorMapper.ToEntity(dto);
             return await doctorRepository.AddDoctorAsync(entity);
         }
+
+        public async Task<int> Update(int id, CreateDoctorDto dto)
+        {
+            logger.LogInformation("Update Doctor; id : " + id);
+            var entity = doctorMapper.ToEntity(dto);
+            entity.DoctorId = id;
+            return await doctorRepository.UpdateDoctorAsync(entity);
+        }
     }
 }

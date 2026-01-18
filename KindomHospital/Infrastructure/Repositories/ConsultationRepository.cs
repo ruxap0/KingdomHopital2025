@@ -30,5 +30,27 @@ namespace KindomHospital.Infrastructure.Repositories
         {
             return await context.Consultations.FirstOrDefaultAsync(c => c.ConsultationId == id);
         }
+
+        public async Task<int> UpdateConsultationAsync(Consultation consultation)
+        {
+            var doctorExists = await context.Doctors.AnyAsync(d => d.DoctorId == consultation.DoctorId);
+            var patientExists = await context.Patients.AnyAsync(p => p.PatientId == consultation.PatientId);
+
+            if (!doctorExists || !patientExists)
+                return -1;
+
+            var existing = await context.Consultations.FindAsync(consultation.ConsultationId);
+            if (existing is null)
+                return 0;
+
+            existing.DoctorId = consultation.DoctorId;
+            existing.PatientId = consultation.PatientId;
+            existing.Date = consultation.Date;
+            existing.Hour = consultation.Hour;
+            existing.Reason = consultation.Reason;
+
+            await context.SaveChangesAsync();
+            return 1;
+        }
     }
 }

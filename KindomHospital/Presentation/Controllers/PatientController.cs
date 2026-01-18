@@ -48,5 +48,25 @@ namespace KindomHospital.Presentation.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = idPatient }, item);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(int id, [FromBody] CreatePatientDto dto)
+        {
+            _logger.LogInformation("Updating Patient with ID {Id}", id);
+
+            int result = await service.Update(id, dto);
+
+            if (result == -1)
+            {
+                return BadRequest("Could not update the patient. Invalid foreign key.");
+            }
+
+            if (result == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
     }
 }

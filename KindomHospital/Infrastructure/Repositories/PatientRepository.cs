@@ -22,5 +22,19 @@ namespace KindomHospital.Infrastructure.Repositories
         {
             return await context.Patients.FirstOrDefaultAsync(p => p.PatientId == id);
         }
+
+        public async Task<int> UpdatePatientAsync(Patient patient)
+        {
+            var existing = await context.Patients.FindAsync(patient.PatientId);
+            if (existing is null)
+                return 0;
+
+            existing.FirstName = patient.FirstName;
+            existing.LastName = patient.LastName;
+            existing.BirthDate = patient.BirthDate;
+
+            await context.SaveChangesAsync();
+            return 1;
+        }
     }
 }

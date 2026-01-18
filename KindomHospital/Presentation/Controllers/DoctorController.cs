@@ -46,8 +46,27 @@ namespace KindomHospital.Presentation.Controllers
             if (item is null)
                 return NotFound();
 
-
             return CreatedAtAction(nameof(GetById), new { id = idDoctor }, item);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(int id, [FromBody] CreateDoctorDto dto)
+        {
+            _logger.LogInformation("Updating Doctor with ID {Id}", id);
+
+            int result = await service.Update(id, dto);
+
+            if (result <= 0)
+            {
+                return BadRequest("Could not update the doctor. Specialty does not exist.");
+            }
+
+            if (result == 0)
+            { 
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }
