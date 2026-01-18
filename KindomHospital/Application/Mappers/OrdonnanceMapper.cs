@@ -18,5 +18,12 @@ namespace KindomHospital.Application.Mappers
         [MapperIgnoreTarget(nameof(Ordonnance.Patient))]
         [MapperIgnoreTarget(nameof(Ordonnance.Consultation))]
         public partial Ordonnance ToEntity(OrdonnanceDto dto);
+
+        [MapperIgnoreTarget(nameof(Ordonnance.OrdonnanceId))]
+        [MapperIgnoreTarget(nameof(Ordonnance.OrdonnanceLignes))]
+        [MapperIgnoreTarget(nameof(Ordonnance.Doctor))]
+        [MapperIgnoreTarget(nameof(Ordonnance.Patient))]
+        [MapperIgnoreTarget(nameof(Ordonnance.Consultation))]
+        public partial Ordonnance ToEntity(CreateOrdonnanceDto dto);
     }
 }

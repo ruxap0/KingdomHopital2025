@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KindomHospital.Presentation.Controllers
 {
     [ApiController]
-    [Route("specialties")]
+    [Route("api/specialties")]
     public class SpecialtyController(SpecialtyService service, ILogger<SpecialtyController> logger) : ControllerBase
     {
         private readonly ILogger<SpecialtyController> _logger = logger;

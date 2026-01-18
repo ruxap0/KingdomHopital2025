@@ -11,10 +11,11 @@ namespace KindomHospital.Infrastructure.Repositories
             return await context.Medicaments.ToListAsync();
         }
 
-        public async Task AddMedicamentAsync(Medicament medicament)
+        public async Task<int> AddMedicamentAsync(Medicament medicament)
         {
             await context.Medicaments.AddAsync(medicament);
             await context.SaveChangesAsync();
+            return medicament.MedicamentId;
         }
 
         public async Task<Medicament> GetMedicamentById(int id)

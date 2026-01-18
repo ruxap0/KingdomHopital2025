@@ -6,7 +6,7 @@ namespace KindomHospital.Application.Repositories
     {
         Task<IEnumerable<Ordonnance>> GetAllOrdonnancesAsync();
 
-        Task AddOrdonnanceAsync(Ordonnance ordonnance);
+        Task<int> AddOrdonnanceAsync(Ordonnance ordonnance);
 
         Task<Ordonnance> GetOrdonnanceById(int id);
     }

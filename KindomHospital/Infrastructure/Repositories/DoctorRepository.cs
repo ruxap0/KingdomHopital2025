@@ -11,10 +11,17 @@ namespace KindomHospital.Infrastructure.Repositories
             return await context.Doctors.ToListAsync();
         }
 
-        public async Task AddDoctorAsync(Doctor doctor)
+        public async Task<int> AddDoctorAsync(Doctor doctor)
         {
-            await context.Doctors.AddAsync(doctor);
-            await context.SaveChangesAsync();
+            var SpecialtyExists = await context.Specialties.AnyAsync(s => s.SpecialtyId == doctor.SpecialtyId);
+
+            if (SpecialtyExists)
+            {
+                await context.Doctors.AddAsync(doctor);
+                await context.SaveChangesAsync();
+                return doctor.DoctorId;
+            }
+            return -1;
         }
 
         public async Task<Doctor> GetDoctorById(int id)

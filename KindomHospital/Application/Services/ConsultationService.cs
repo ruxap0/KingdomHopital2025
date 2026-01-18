@@ -29,5 +29,12 @@ namespace KindomHospital.Application.Services
             }
             return dto;
         }
+
+        public async Task<int> Add(CreateConsultationDto dto)
+        {
+            logger.LogInformation("Add Consultation");
+            var entity = consultationMapper.ToEntity(dto);
+            return await consultationRepository.AddConsultationAsync(entity);
+        }
     }
 }

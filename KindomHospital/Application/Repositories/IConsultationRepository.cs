@@ -6,7 +6,7 @@ namespace KindomHospital.Application.Repositories
     {
         Task<IEnumerable<Consultation>> GetAllConsultationsAsync();
 
-        Task AddConsultationAsync(Consultation consultation);
+        Task<int> AddConsultationAsync(Consultation consultation);
 
         Task<Consultation> GetConsultationById(int id);
     }

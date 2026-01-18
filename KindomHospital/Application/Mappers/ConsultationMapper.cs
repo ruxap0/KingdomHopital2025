@@ -16,5 +16,11 @@ namespace KindomHospital.Application.Mappers
         [MapperIgnoreTarget(nameof(Consultation.Doctor))]
         [MapperIgnoreTarget(nameof(Consultation.Patient))]
         public partial Consultation ToEntity(ConsultationDto dto);
+
+        [MapperIgnoreTarget(nameof(Consultation.ConsultationId))]
+        [MapperIgnoreTarget(nameof(Consultation.Ordonnances))]
+        [MapperIgnoreTarget(nameof(Consultation.Doctor))]
+        [MapperIgnoreTarget(nameof(Consultation.Patient))]
+        public partial Consultation ToEntity(CreateConsultationDto dto);
     }
 }

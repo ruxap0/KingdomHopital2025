@@ -31,5 +31,23 @@ namespace KindomHospital.Presentation.Controllers
             }
             return Ok(item);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] CreateDoctorDto dto)
+        {
+            _logger.LogInformation("Creating a new Doctor");
+
+            int idDoctor = await service.Add(dto);
+            if (idDoctor == -1)
+            {
+                return BadRequest("Could not create the doctor.");
+            }
+            var item = await service.GetDoctorById(idDoctor);
+            if (item is null)
+                return NotFound();
+
+
+            return CreatedAtAction(nameof(GetById), new { id = idDoctor }, item);
+        }
     }
 }
