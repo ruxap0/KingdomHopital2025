@@ -32,6 +32,77 @@ namespace KindomHospital.Presentation.Controllers
             return Ok(item);
         }
 
+        [HttpGet("{id}/consultations")]
+        public async Task<ActionResult<IEnumerable<ConsultationDto>>> GetConsultations(int id, [FromQuery] DateOnly? from = null, [FromQuery] DateOnly? to = null)
+        {
+            _logger.LogInformation("Getting consultations for doctor {Id} between {From} and {To}", id, from, to);
+
+            var items = await service.GetConsultationsByDoctorAsync(id, from, to);
+            if (items is null)
+                return NotFound();
+
+            return Ok(items);
+        }
+
+        [HttpGet("{id}/patients")]
+        public async Task<ActionResult<IEnumerable<PatientDto>>> GetPatients(int id)
+        {
+            _logger.LogInformation("Getting patients for doctor {Id}", id);
+
+            var items = await service.GetPatientsByDoctorAsync(id);
+            if (items is null)
+                return NotFound();
+
+            return Ok(items);
+        }
+
+        [HttpGet("{id}/ordonnances")]
+        public async Task<ActionResult<IEnumerable<OrdonnanceDto>>> GetOrdonnances(int id, [FromQuery] DateOnly? from = null, [FromQuery] DateOnly? to = null)
+        {
+            _logger.LogInformation("Getting ordonnances for doctor {Id} between {From} and {To}", id, from, to);
+
+            var items = await service.GetOrdonnancesByDoctorAsync(id, from, to);
+            if (items is null)
+                return NotFound();
+
+            return Ok(items);
+        }
+
+        [HttpGet("{id}/specialty")]
+        public async Task<ActionResult<SpecialtyDto>> GetSpecialty(int id)
+        {
+            _logger.LogInformation("Getting Specialty for Doctor with ID {Id}", id);
+            var item = await service.GetSpecialtyByDoctorAsync(id);
+
+            if (item is null)
+            {
+                _logger.LogWarning("Specialty for Doctor ID {Id} not found", id);
+                return NotFound();
+            }
+
+            return Ok(item);
+        }
+
+        [HttpPut("{id}/specialty/{specialtyId}")]
+        public async Task<ActionResult> ChangeSpecialty(int id, int specialtyId)
+        {
+            _logger.LogInformation("Changing Specialty for Doctor {Id} to {SpecialtyId}", id, specialtyId);
+
+            int result = await service.ChangeSpecialty(id, specialtyId);
+
+            if (result == -1)
+            {
+                return BadRequest("Could not change specialty. Specialty does not exist.");
+            }
+
+            if (result == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateDoctorDto dto)
         {
@@ -46,6 +117,7 @@ namespace KindomHospital.Presentation.Controllers
             if (item is null)
                 return NotFound();
 
+
             return CreatedAtAction(nameof(GetById), new { id = idDoctor }, item);
         }
 
@@ -56,13 +128,13 @@ namespace KindomHospital.Presentation.Controllers
 
             int result = await service.Update(id, dto);
 
-            if (result <= 0)
+            if (result == -1)
             {
                 return BadRequest("Could not update the doctor. Specialty does not exist.");
             }
 
             if (result == 0)
-            { 
+            {
                 return NotFound();
             }
 

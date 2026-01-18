@@ -6,16 +6,29 @@ namespace KindomHospital.Presentation.Controllers
 {
     [ApiController]
     [Route("api/consultations")]
-    public class ConsultationController(ConsultationService service, ILogger<ConsultationController> logger) : ControllerBase
+    public class ConsultationController(ConsultationService service, OrdonnanceService ordonnanceService, ILogger<ConsultationController> logger) : ControllerBase
     {
         private readonly ILogger<ConsultationController> _logger = logger;
+        private readonly OrdonnanceService _ordonnanceService = ordonnanceService;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ConsultationDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ConsultationDto>>> GetAll([FromQuery] int? doctorId = null, [FromQuery] int? patientId = null, [FromQuery] DateOnly? from = null, [FromQuery] DateOnly? to = null)
         {
-            _logger.LogInformation("Getting all consultations");
-            var items = await service.GetAllConsultationsAsync();
-            return Ok(items);
+            _logger.LogInformation("Getting consultations list with filters doctorId={DoctorId} patientId={PatientId} from={From} to={To}", doctorId, patientId, from, to);
+
+            if (!doctorId.HasValue && !patientId.HasValue)
+            {
+                if (from.HasValue || to.HasValue)
+                    return BadRequest("At least one of doctorId or patientId must be provided when using date filters.");
+                var items = await service.GetAllConsultationsAsync();
+                return Ok(items);
+            }
+
+            var itemsFiltered = await service.GetFilteredConsultationsAsync(doctorId, patientId, from, to);
+            if (itemsFiltered is null)
+                return NotFound();
+
+            return Ok(itemsFiltered);
         }
 
         [HttpGet("{id}")]
@@ -30,6 +43,34 @@ namespace KindomHospital.Presentation.Controllers
                 return NotFound();
             }
             return Ok(item);
+        }
+
+        [HttpGet("{id}/ordonnances")]
+        public async Task<ActionResult<IEnumerable<OrdonnanceDto>>> GetOrdonnances(int id)
+        {
+            _logger.LogInformation("Getting ordonnances for consultation {Id}", id);
+
+            var items = await _ordonnanceService.GetOrdonnancesByConsultationAsync(id);
+            if (items is null)
+                return NotFound();
+
+            return Ok(items);
+        }
+
+        [HttpPost("{id}/ordonnances")]
+        public async Task<ActionResult> PostOrdonnance(int id, [FromBody] CreateOrdonnanceDto dto)
+        {
+            _logger.LogInformation("Creating an Ordonnance for consultation {Id}", id);
+
+            int result = await _ordonnanceService.AddForConsultation(id, dto);
+            if (result == -1)
+                return BadRequest("Could not create ordonnance. FK invalid (doctor/patient/consultation).");
+
+            var item = await _ordonnanceService.GetOrdonnanceById(result);
+            if (item is null)
+                return NotFound();
+
+            return CreatedAtAction("GetById", "Ordonnance", new { id = result }, item);
         }
 
         [HttpPost]

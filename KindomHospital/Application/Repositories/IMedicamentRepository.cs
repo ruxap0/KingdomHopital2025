@@ -9,5 +9,7 @@ namespace KindomHospital.Application.Repositories
         Task<int> AddMedicamentAsync(Medicament medicament);
 
         Task<Medicament> GetMedicamentById(int id);
+
+        Task<IEnumerable<Ordonnance>> GetOrdonnancesByMedicamentAsync(int medicamentId);
     }
 }

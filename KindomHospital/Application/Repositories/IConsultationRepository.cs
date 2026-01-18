@@ -11,5 +11,7 @@ namespace KindomHospital.Application.Repositories
         Task<Consultation> GetConsultationById(int id);
 
         Task<int> UpdateConsultationAsync(Consultation consultation);
+
+        Task<IEnumerable<Consultation>> GetConsultationsFilteredAsync(int? doctorId, int? patientId, DateOnly? from, DateOnly? to);
     }
 }

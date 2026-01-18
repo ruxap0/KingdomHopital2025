@@ -53,5 +53,22 @@ namespace KindomHospital.Infrastructure.Repositories
             await context.SaveChangesAsync();
             return 1;
         }
+
+        public async Task<IEnumerable<Consultation>> GetConsultationsByPatientAsync(int patientId)
+        {
+            return await context.Consultations
+                .Where(c => c.PatientId == patientId)
+                .OrderBy(c => c.Date)
+                .ThenBy(c => c.Hour)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Ordonnance>> GetOrdonnancesByPatientAsync(int patientId)
+        {
+            return await context.Ordonnances
+                .Where(o => o.PatientId == patientId)
+                .OrderBy(o => o.Date)
+                .ToListAsync();
+        }
     }
 }

@@ -13,5 +13,13 @@ namespace KindomHospital.Application.Repositories
         Task<int> UpdateOrdonnanceAsync(Ordonnance ordonnance);
 
         Task<int> DeleteOrdonnanceAsync(int id);
+
+        Task<IEnumerable<Ordonnance>> GetOrdonnancesByConsultationAsync(int consultationId);
+
+        Task<int> AttachOrdonnanceToConsultationAsync(int ordonnanceId, int consultationId);
+
+        Task<int> DetachOrdonnanceFromConsultationAsync(int ordonnanceId);
+
+        Task<IEnumerable<Ordonnance>> GetOrdonnancesFilteredAsync(int? doctorId, int? patientId, DateOnly? from, DateOnly? to);
     }
 }

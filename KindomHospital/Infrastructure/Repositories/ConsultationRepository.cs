@@ -52,5 +52,27 @@ namespace KindomHospital.Infrastructure.Repositories
             await context.SaveChangesAsync();
             return 1;
         }
+
+        public async Task<IEnumerable<Consultation>> GetConsultationsFilteredAsync(int? doctorId, int? patientId, DateOnly? from, DateOnly? to)
+        {
+            var query = context.Consultations.AsQueryable();
+
+            if (doctorId.HasValue)
+                query = query.Where(c => c.DoctorId == doctorId.Value);
+
+            if (patientId.HasValue)
+                query = query.Where(c => c.PatientId == patientId.Value);
+
+            if (from.HasValue)
+                query = query.Where(c => c.Date >= from.Value);
+
+            if (to.HasValue)
+                query = query.Where(c => c.Date <= to.Value);
+
+            return await query
+                .OrderBy(c => c.Date)
+                .ThenBy(c => c.Hour)
+                .ToListAsync();
+        }
     }
 }

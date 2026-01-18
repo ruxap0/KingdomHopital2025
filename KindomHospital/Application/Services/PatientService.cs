@@ -4,7 +4,7 @@ using KindomHospital.Application.DTOs;
 
 namespace KindomHospital.Application.Services
 {
-    public class PatientService(IPatientRepository patientRepository, PatientMapper patientMapper, ILogger<PatientService> logger)
+    public class PatientService(IPatientRepository patientRepository, PatientMapper patientMapper, ConsultationMapper consultationMapper, OrdonnanceMapper ordonnanceMapper, ILogger<PatientService> logger)
     {
         public async Task<IEnumerable<PatientDto>> GetAllPatientsAsync()
         {
@@ -49,6 +49,28 @@ namespace KindomHospital.Application.Services
         {
             logger.LogInformation("Delete Patient; id : " + id);
             return await patientRepository.DeletePatientAsync(id);
+        }
+
+        public async Task<IEnumerable<ConsultationDto>?> GetConsultationsByPatientAsync(int patientId)
+        {
+            logger.LogInformation("GetConsultationsByPatientAsync; patientId : " + patientId);
+            var patient = await patientRepository.GetPatientById(patientId);
+            if (patient is null)
+                return null;
+
+            var consultations = await patientRepository.GetConsultationsByPatientAsync(patientId);
+            return consultations.Select(consultationMapper.ToDto);
+        }
+
+        public async Task<IEnumerable<OrdonnanceDto>?> GetOrdonnancesByPatientAsync(int patientId)
+        {
+            logger.LogInformation("GetOrdonnancesByPatientAsync; patientId : " + patientId);
+            var patient = await patientRepository.GetPatientById(patientId);
+            if (patient is null)
+                return null;
+
+            var ordonnances = await patientRepository.GetOrdonnancesByPatientAsync(patientId);
+            return ordonnances.Select(ordonnanceMapper.ToDto);
         }
     }
 }

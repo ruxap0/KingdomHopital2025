@@ -31,5 +31,17 @@ namespace KindomHospital.Presentation.Controllers
             }
             return Ok(item);
         }
+
+        [HttpGet("{id}/doctors")]
+        public async Task<ActionResult<IEnumerable<DoctorDto>>> GetDoctors(int id)
+        {
+            _logger.LogInformation("Getting doctors for specialty {Id}", id);
+
+            var items = await service.GetDoctorsBySpecialtyAsync(id);
+            if (items is null)
+                return NotFound();
+
+            return Ok(items);
+        }
     }
 }

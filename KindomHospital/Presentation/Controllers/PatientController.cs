@@ -32,6 +32,30 @@ namespace KindomHospital.Presentation.Controllers
             return Ok(item);
         }
 
+        [HttpGet("{id}/consultations")]
+        public async Task<ActionResult<IEnumerable<ConsultationDto>>> GetConsultations(int id)
+        {
+            _logger.LogInformation("Getting consultations for patient {Id}", id);
+
+            var items = await service.GetConsultationsByPatientAsync(id);
+            if (items is null)
+                return NotFound();
+
+            return Ok(items);
+        }
+
+        [HttpGet("{id}/ordonnances")]
+        public async Task<ActionResult<IEnumerable<OrdonnanceDto>>> GetOrdonnances(int id)
+        {
+            _logger.LogInformation("Getting ordonnances for patient {Id}", id);
+
+            var items = await service.GetOrdonnancesByPatientAsync(id);
+            if (items is null)
+                return NotFound();
+
+            return Ok(items);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreatePatientDto dto)
         {

@@ -4,7 +4,7 @@ using KindomHospital.Application.DTOs;
 
 namespace KindomHospital.Application.Services
 {
-    public class SpecialtyService(ISpecialtyRepository specialtyRepository, SpecialtyMapper specialtyMapper, ILogger<SpecialtyService> logger)
+    public class SpecialtyService(ISpecialtyRepository specialtyRepository, SpecialtyMapper specialtyMapper, IDoctorRepository doctorRepository, DoctorMapper doctorMapper, ILogger<SpecialtyService> logger)
     {
         public async Task<IEnumerable<SpecialtyDto>> GetAllSpecialtiesAsync()
         {
@@ -29,6 +29,18 @@ namespace KindomHospital.Application.Services
                 dto = null;
             }
                 return dto;
+        }
+
+        public async Task<IEnumerable<DoctorDto>?> GetDoctorsBySpecialtyAsync(int specialtyId)
+        {
+            logger.LogInformation("GetDoctorsBySpecialtyAsync; specialtyId : " + specialtyId);
+
+            var specialty = await specialtyRepository.GetSpecialtyById(specialtyId);
+            if (specialty is null)
+                return null;
+
+            var doctors = await doctorRepository.GetDoctorsBySpecialtyIdAsync(specialtyId);
+            return doctors.Select(doctorMapper.ToDto);
         }
     }
 }

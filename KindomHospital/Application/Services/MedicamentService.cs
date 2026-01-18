@@ -4,7 +4,7 @@ using KindomHospital.Application.DTOs;
 
 namespace KindomHospital.Application.Services
 {
-    public class MedicamentService(IMedicamentRepository medicamentRepository, MedicamentMapper medicamentMapper, ILogger<MedicamentService> logger)
+    public class MedicamentService(IMedicamentRepository medicamentRepository, MedicamentMapper medicamentMapper, OrdonnanceMapper ordonnanceMapper, ILogger<MedicamentService> logger)
     {
         public async Task<IEnumerable<MedicamentDto>> GetAllMedicamentsAsync()
         {
@@ -18,15 +18,7 @@ namespace KindomHospital.Application.Services
         {
             logger.LogInformation("GetMedicamentById; id : " + id);
             var entity = await medicamentRepository.GetMedicamentById(id);
-            MedicamentDto dto;
-            if (entity != null)
-            {
-                dto = medicamentMapper.ToDto(entity);
-            }
-            else
-            {
-                dto = null;
-            }
+            MedicamentDto dto = entity is null ? null : medicamentMapper.ToDto(entity);
             return dto;
         }
 
@@ -35,6 +27,17 @@ namespace KindomHospital.Application.Services
             logger.LogInformation("Add Medicament");
             var entity = medicamentMapper.ToEntity(dto);
             return await medicamentRepository.AddMedicamentAsync(entity);
+        }
+
+        public async Task<IEnumerable<OrdonnanceDto>?> GetOrdonnancesByMedicamentAsync(int medicamentId)
+        {
+            logger.LogInformation("GetOrdonnancesByMedicamentAsync; medicamentId : " + medicamentId);
+            var med = await medicamentRepository.GetMedicamentById(medicamentId);
+            if (med is null)
+                return null;
+
+            var ords = await medicamentRepository.GetOrdonnancesByMedicamentAsync(medicamentId);
+            return ords.Select(ordonnanceMapper.ToDto);
         }
     }
 }

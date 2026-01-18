@@ -32,6 +32,18 @@ namespace KindomHospital.Presentation.Controllers
             return Ok(item);
         }
 
+        [HttpGet("{id}/ordonnances")]
+        public async Task<ActionResult<IEnumerable<OrdonnanceDto>>> GetOrdonnances(int id)
+        {
+            _logger.LogInformation("Getting ordonnances containing medicament {Id}", id);
+
+            var items = await service.GetOrdonnancesByMedicamentAsync(id);
+            if (items is null)
+                return NotFound();
+
+            return Ok(items);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateMedicamentDto dto)
         {

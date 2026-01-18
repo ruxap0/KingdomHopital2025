@@ -26,6 +26,7 @@ builder.Services.AddSingleton<PatientMapper>();
 builder.Services.AddSingleton<ConsultationMapper>();
 builder.Services.AddSingleton<MedicamentMapper>();
 builder.Services.AddSingleton<OrdonnanceMapper>();
+builder.Services.AddSingleton<OrdonnanceLigneMapper>();
 
 // Ajouter les services au DI
 builder.Services.AddScoped<SpecialtyService>();
@@ -42,6 +43,7 @@ builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IConsultationRepository, ConsultationRepository>();
 builder.Services.AddScoped<IMedicamentRepository, MedicamentRepository>();
 builder.Services.AddScoped<IOrdonnanceRepository, OrdonnanceRepository>();
+builder.Services.AddScoped<IOrdonnanceLigneRepository, OrdonnanceLigneRepository>();
 
 // DbContext (scoped)
 builder.Services.AddDbContext<KingdomHospitalContext>(options =>
